@@ -3,10 +3,14 @@
 - Jessa Ecle, Johnny Chan, Santiago Acevedo, Christopher Nguyen, follow me on instagram @ chris.to.pho chris sucks my ass ,:D atleast i didnt get rejected from lockheed
 */
 import java.util.Scanner;
-
+import java.util.Arrays;
 
 class Main {
 
+  public static String[] Instructor; // Global Instructor String
+  public static String[] Student1; // Global firstStudent String
+  public static String[] Student2; // Global secondStudent String
+  
   // Print Menu Function
   public static void printMenu() 
   {
@@ -21,46 +25,35 @@ class Main {
 
    // Select Menu Options
   public static int selectChoice (int option)
-  {
-      // Scanner invoiceScnr = new Scanner(System.in);
-      String[] Instructor = new String[4]; 
-      String[] Student1;
-      String[] Student2;
-      //0-name, 1-ID, 2-GPA/Rank , 3-Credit Hours/Department
+  {     
+      
       
       int choice = 0;
       switch (option) {
         case 1: // Faculty Information
         choice = 1;
         System.out.println("Enter faculty information");
-        Instructor = Faculty();
+
+        Instructor = Arrays.copyOf(Faculty(), 4);
         break;
 
         case 2: //Student Information
         choice = 2;
         System.out.println("Enter student 1 information");
-        //Student1 = firstStudent();
+        Student1 = firstStudent();
         System.out.println("Enter student 2 information");
-        // Student2 = secondStudent();
+        Student2 = secondStudent();
         // students
         break;
 
         case 3: // Student Invoice
         choice = 3;
-        //Invoice(studentName1);
-        /*
-          System.out.println("Which student? 1 " + Student1[0] + "or 2 " + Student2[2] + "?");
-          int invoiceChoice = invoiceScnr.nextInt();
-            if (invoiceChoice == 1){
-              
-            }
-            else if (invoiceChoice == 2){}
-            */
+        studentInvoice(Student1, Student2);
         break;
 
         case 4: // Faculty Information
         choice = 4;
-        //facultyInvoice(Instructor);
+        facultyInvoice(Instructor);
         break;
 
         case 5: // Exit Program
@@ -116,22 +109,22 @@ class Main {
   }
 
   // String storing first student information
-  /*public static String [] firstStudent()
+  public static String [] firstStudent()
   {
       Scanner scnr = new Scanner(System.in);
-      String [] info = new String[3];
+      String [] info = new String[4];
       
       System.out.print("Name of Student: ");
       info[0] = scnr.nextLine();
       
       System.out.print("ID: ");
-      info[1] = scnr.nextInt();
+      info[1] = scnr.next();
 
       System.out.print("GPA: ");
-      info[2] = scnr.nextDouble();
+      info[2] = scnr.next();
       
       System.out.print("Credit Hours: ");
-      info[3] = scnr.nextInt();
+      info[3] = scnr.next();
 
       return info;
   } 
@@ -140,37 +133,40 @@ class Main {
   public static String[] secondStudent()
   {
       Scanner scnr = new Scanner(System.in);
-      String [] data = new String[3];
+      String [] data = new String[4];
 
       System.out.print("Name of Student: ");
       data[0] = scnr.nextLine();
       
       System.out.print("ID: ");
-      data[1] = scnr.nextInt();
+      data[1] = scnr.next();
 
       System.out.print("GPA: ");
-      data[2] = scnr.nextDouble();
+      data[2] = scnr.next();
       
       System.out.print("Credit Hours: ");
-      data[3] = scnr.nextInt();
+      data[3] = scnr.next();
 
       return data;
   }
 
   // Print facultyInvoice function
-  public static void facultyInvoice(String Faculty[])
+  public static void facultyInvoice(String Instructor[])
   {
       System.out.println("-------------------------------------------------------");
-      System.out.println(Faculty[0]);
-      System.out.println(Faculty[3]+" Department,"+Faculty[2]);
+      System.out.println(Instructor[0]);
+      System.out.println(Instructor[3]+" Department,"+Instructor[2]);
       System.out.println("-------------------------------------------------------");
   } 
 
   // Print studentInvoice function
   public static void studentInvoice(String firstStudent[], String secondStudent[])
   {
-    int creditHrs1 = Integer.parseInt(firstStudent[2]);
-    int creditHrs2 = Integer.parseInt(secondStudent[2]);
+    //0-name, 1-ID, 2-GPA/Rank , 3-Credit Hours/Department
+    int creditHrs1 = Integer.parseInt(firstStudent[3]);
+    int creditHrs2 = Integer.parseInt(secondStudent[3]);
+
+    double GPA1 = Double.parseDouble(firstStudent[2]);
 
     Scanner invoiceScnr = new Scanner(System.in);
     System.out.println("Which student? 1 " + firstStudent[0] + " or 2 " + secondStudent[0] + "?");
@@ -189,14 +185,14 @@ class Main {
     else if (choice == 2)
     {
       System.out.println("-------------------------------------------------------");
-      System.out.println(secondStudent[0], + "\t\t " + secondStudent[1]);
+      System.out.println(secondStudent[0] + "\t\t " + secondStudent[1]);
       System.out.println("Credit Hours: " + secondStudent[2] + "($236.45/credit hour)"); // credit Hours
       System.out.println("Fees: $52");
       System.out.println("Total payment: $" + (((creditHrs2 * 236.45) + 52)) + "\t\t\t ($0 discount applied)");
       System.out.println("-------------------------------------------------------");
     }
   }
-  */
+  
 
   public static void main(String[] args) 
   {
