@@ -6,60 +6,64 @@ import java.util.Scanner;
 
 
 class Main {
-  public static void main(String[] args) {
-     int choice;
-     
-    do{
-      printMenu();
-       Scanner scnr = new Scanner(System.in);
 
-          int option = scnr.nextInt();
-          System.out.println("");
-          choice = selectChoice(option);// Menu works, we got somewhere
-    }
-    while(choice < 5);   
-  }
-  
-  public static void printMenu() {
-
+  // Print Menu Function
+  public static void printMenu() 
+  {
       System.out.println("\t\t\tWelcome to my Personal Management System\n\n");
       System.out.println("Choose one of the options: \n");
       System.out.println("1 - Enter the information of the faculty");
       System.out.println("2 - Enter the information of two students");
       System.out.println("3 - Print tuition invoice");
       System.out.println("4 - Print faculty information");
-      System.out.println("5 - Exit program");
+      System.out.println("5 - Exit program");   
+  }
+
+   // Select Menu Options
+  public static int selectChoice (int option)
+  {
+      // Scanner invoiceScnr = new Scanner(System.in);
+      String[] Instructor = new String[4]; 
+      String[] Student1;
+      String[] Student2;
+      //0-name, 1-ID, 2-GPA/Rank , 3-Credit Hours/Department
       
-   }
-   
-  public static int selectChoice (int option){
       int choice = 0;
       switch (option) {
-        case 1:
-        // faculty\
+        case 1: // Faculty Information
         choice = 1;
         System.out.println("Enter faculty information");
-       // Instructor=Faculty();
+        Instructor = Faculty();
         break;
 
-        case 2:
+        case 2: //Student Information
         choice = 2;
         System.out.println("Enter student 1 information");
-        //Student1();
+        //Student1 = firstStudent();
+        System.out.println("Enter student 2 information");
+        // Student2 = secondStudent();
         // students
         break;
 
-        case 3:
+        case 3: // Student Invoice
         choice = 3;
         //Invoice(studentName1);
+        /*
+          System.out.println("Which student? 1 " + Student1[0] + "or 2 " + Student2[2] + "?");
+          int invoiceChoice = invoiceScnr.nextInt();
+            if (invoiceChoice == 1){
+              
+            }
+            else if (invoiceChoice == 2){}
+            */
         break;
 
-        case 4:
+        case 4: // Faculty Information
         choice = 4;
-        // faculty info
+        //facultyInvoice(Instructor);
         break;
 
-        case 5:
+        case 5: // Exit Program
         choice = 5;
         System.out.println("Peace out, A-Town");
         break;
@@ -74,5 +78,143 @@ class Main {
       return choice;
 
   }
+
+  // String storing Faculty Information
+  public static String[] Faculty()
+  {
+    Scanner scnr = new Scanner(System.in);
+    String[] criteria = new String[4];
+    
+    System.out.print("Name of the faculty: ");
+    criteria[0] = scnr.nextLine();
+
+    System.out.print("ID: ");
+    criteria[1] = scnr.nextLine();
+    
+    System.out.print("Rank: ");
+    criteria[2] = scnr.nextLine();
+    criteria[2] = criteria[2].toLowerCase();
+    while(!criteria[2].equals("professor") && !criteria[2].equals("adjunct")){
+      System.out.println("Sorry entered rank (" + criteria[2] + ") is invalid");
+      System.out.print("Rank: ");
+      criteria[2] = scnr.nextLine();
+      criteria[2] = criteria[2].toLowerCase();
+    }
+
+    System.out.print("Department: ");
+    criteria[3] = scnr.nextLine();
+    criteria[3] = criteria[3].toLowerCase();
+    while(!criteria[3].equals("mathematics") && !criteria[3].equals("engineering") && !criteria[3].equals("arts") && !criteria[3].equals("science")){
+      System.out.println("Invalid department");
+      System.out.print("Department: ");
+      criteria[3] = scnr.nextLine();
+      criteria[3] = criteria[3].toLowerCase();
+    }
+
+    return criteria;
+    
+  }
+
+  // String storing first student information
+  /*public static String [] firstStudent()
+  {
+      Scanner scnr = new Scanner(System.in);
+      String [] info = new String[3];
+      
+      System.out.print("Name of Student: ");
+      info[0] = scnr.nextLine();
+      
+      System.out.print("ID: ");
+      info[1] = scnr.nextInt();
+
+      System.out.print("GPA: ");
+      info[2] = scnr.nextDouble();
+      
+      System.out.print("Credit Hours: ");
+      info[3] = scnr.nextInt();
+
+      return info;
+  } 
+
+  // String storing second student information
+  public static String[] secondStudent()
+  {
+      Scanner scnr = new Scanner(System.in);
+      String [] data = new String[3];
+
+      System.out.print("Name of Student: ");
+      data[0] = scnr.nextLine();
+      
+      System.out.print("ID: ");
+      data[1] = scnr.nextInt();
+
+      System.out.print("GPA: ");
+      data[2] = scnr.nextDouble();
+      
+      System.out.print("Credit Hours: ");
+      data[3] = scnr.nextInt();
+
+      return data;
+  }
+
+  // Print facultyInvoice function
+  public static void facultyInvoice(String Faculty[])
+  {
+      System.out.println("-------------------------------------------------------");
+      System.out.println(Faculty[0]);
+      System.out.println(Faculty[3]+" Department,"+Faculty[2]);
+      System.out.println("-------------------------------------------------------");
+  } 
+
+  // Print studentInvoice function
+  public static void studentInvoice(String firstStudent[], String secondStudent[])
+  {
+    int creditHrs1 = Integer.parseInt(firstStudent[2]);
+    int creditHrs2 = Integer.parseInt(secondStudent[2]);
+
+    Scanner invoiceScnr = new Scanner(System.in);
+    System.out.println("Which student? 1 " + firstStudent[0] + " or 2 " + secondStudent[0] + "?");
+    int choice = invoiceScnr.nextInt();
+
+    if (choice == 1)
+    {
+      System.out.println("-------------------------------------------------------");
+      System.out.println(firstStudent[0] + "\t\t " + firstStudent[1]); // name and student id
+      System.out.println("Credit Hours: " + firstStudent[2] + "($236.45/credit hour)"); // credit Hours
+      System.out.println("Fees: $52");
+      System.out.println("Total payment: $" + (((creditHrs1 * 236.45) + 52)) + "\t\t\t ($0 discount applied)");
+      System.out.println("-------------------------------------------------------");
+    }
+    
+    else if (choice == 2)
+    {
+      System.out.println("-------------------------------------------------------");
+      System.out.println(secondStudent[0], + "\t\t " + secondStudent[1]);
+      System.out.println("Credit Hours: " + secondStudent[2] + "($236.45/credit hour)"); // credit Hours
+      System.out.println("Fees: $52");
+      System.out.println("Total payment: $" + (((creditHrs2 * 236.45) + 52)) + "\t\t\t ($0 discount applied)");
+      System.out.println("-------------------------------------------------------");
+    }
+  }
+  */
+
+  public static void main(String[] args) 
+  {
+     int choice;
+     
+    do
+    {
+      printMenu();
+          Scanner scnr = new Scanner(System.in);
+          int option = scnr.nextInt();
+          System.out.println("");
+          choice = selectChoice(option);// Menu works, we got somewhere
+    }
+    while(choice < 5);   
+  }
+  
+  
 }
+
+
 
