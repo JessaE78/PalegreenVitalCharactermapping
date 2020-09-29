@@ -4,6 +4,7 @@
 */
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.*;
 
 class Main {
 
@@ -26,23 +27,73 @@ class Main {
    // Select Menu Options
   public static int selectChoice (int option)
   {     
-      
-      
+      Scanner scnr = new Scanner (System.in);
+      String answer;
       int choice = 0;
       switch (option) {
         case 1: // Faculty Information
         choice = 1;
         System.out.println("Enter faculty information");
 
+        
+        if (Instructor != null)
+        {
+          System.out.println("You have faculty filled in. Do you want to update the information?");
+          System.out.println("Yes or No: ");
+          answer = scnr.next();
+          answer = answer.toLowerCase();
+          if (answer.equals("yes"))
+          {
+            choice = 1;
+            System.out.println("Enter faculty information");
+            Instructor = Arrays.copyOf(Faculty(), 4);
+            break;
+          }
+          else if (answer.equals("no"))
+          {
+            break;
+          }
+          else 
+          {
+            System.out.println("Invalid Input");
+            break;
+          }
+        }
         Instructor = Arrays.copyOf(Faculty(), 4);
         break;
 
         case 2: //Student Information
-        choice = 2;
-        System.out.println("Enter student 1 information");
-        Student1 = firstStudent();
-        System.out.println("Enter student 2 information");
-        Student2 = secondStudent();
+          if(Student1 != null && Student2 != null)
+          {
+            System.out.println("You have already have two students filled in. Do you want to update their information?");
+            System.out.println("Yes or No: ");
+            answer = scnr.next();
+            answer = answer.toLowerCase();
+            if(answer.equals("yes")){
+              choice = 2;
+              System.out.println("Enter student 1 information");
+              Student1 = firstStudent();
+              System.out.println("Enter student 2 information");
+              Student2 = secondStudent();
+              break;
+            }
+            else if(answer.equals("no"))
+            {
+              break;
+            }
+            else
+            {
+              System.out.println(answer);
+              System.out.println("Invalid Input");
+              break;
+            }
+            
+          }
+          choice = 2;
+          System.out.println("Enter student 1 information");
+          Student1 = firstStudent();
+          System.out.println("Enter student 2 information");
+          Student2 = secondStudent();
         // students
         break;
 
@@ -165,50 +216,87 @@ class Main {
     //0-name, 1-ID, 2-GPA/Rank , 3-Credit Hours/Department
     int creditHrs1 = Integer.parseInt(firstStudent[3]);
     int creditHrs2 = Integer.parseInt(secondStudent[3]);
+    double total = 0;
+    double discountTotal = 0;
+    double discount = 0;
 
     double GPA1 = Double.parseDouble(firstStudent[2]);
+    double GPA2 = Double.parseDouble(secondStudent[2]);
+  
 
     Scanner invoiceScnr = new Scanner(System.in);
     System.out.println("Which student? 1 " + firstStudent[0] + " or 2 " + secondStudent[0] + "?");
     int choice = invoiceScnr.nextInt();
 
-    if (choice == 1)
-    {
-      System.out.println("-------------------------------------------------------");
-      System.out.println(firstStudent[0] + "\t\t " + firstStudent[1]); // name and student id
-      System.out.println("Credit Hours: " + firstStudent[2] + "($236.45/credit hour)"); // credit Hours
-      System.out.println("Fees: $52");
-      System.out.println("Total payment: $" + (((creditHrs1 * 236.45) + 52)) + "\t\t\t ($0 discount applied)");
-      System.out.println("-------------------------------------------------------");
-    }
-    
-    else if (choice == 2)
-    {
-      System.out.println("-------------------------------------------------------");
-      System.out.println(secondStudent[0] + "\t\t " + secondStudent[1]);
-      System.out.println("Credit Hours: " + secondStudent[2] + "($236.45/credit hour)"); // credit Hours
-      System.out.println("Fees: $52");
-      System.out.println("Total payment: $" + (((creditHrs2 * 236.45) + 52)) + "\t\t\t ($0 discount applied)");
-      System.out.println("-------------------------------------------------------");
-    }
+      if (choice == 1)
+      {
+          System.out.println("-------------------------------------------------------");
+          System.out.println(firstStudent[0] + "\t\t " + firstStudent[1]); 
+          // name and student id
+          System.out.println("Credit Hours: " + firstStudent[2] + "($236.45/credit hour)"); 
+          // credit Hours
+          System.out.println("Fees: $52");
+          
+         if(GPA1 >= 3.85)
+        {
+          total = (creditHrs1 * 236.45) + 52;
+          discountTotal = total * 0.75;
+          discount = total * 0.25;
+          System.out.printf("Total payment: $%.2f \t\t\t ($%.2f discount applied)",discountTotal,discount);
+          System.out.println("-------------------------------------------------------");
+        }
+        else
+        {
+          System.out.printf("Total payment: $%.2f \t\t\t ($0 discount applied)\n",((creditHrs2 * 236.45) + 52));
+          System.out.println("-------------------------------------------------------");
+        }
+      }
+      
+      else if (choice == 2)
+      {
+       
+          System.out.println("-------------------------------------------------------");
+          System.out.println(secondStudent[0] + "\t\t " + secondStudent[1]);
+          System.out.println("Credit Hours: " + secondStudent[2] + "($236.45/credit hour)"); // credit Hours
+          System.out.println("Fees: $52");
+        if(GPA2 >= 3.85)
+        {
+          total = (creditHrs2 * 236.45) + 52;
+          discountTotal = total * 0.75;
+          discount = total * 0.25;
+          System.out.printf("Total payment: $%.2f \t\t\t ($%.2f discount applied)",discountTotal,discount);
+          System.out.println("-------------------------------------------------------");
+        }
+        else
+        {
+          System.out.printf("Total payment: $%.2f \t\t\t ($0 discount applied)\n",((creditHrs1 * 236.45) + 52));
+          System.out.println("-------------------------------------------------------");
+        }
+        
+      }
   }
-  
 
   public static void main(String[] args) 
   {
-     int choice;
+     int choice = 0;
      
-    do
-    {
-      printMenu();
+    
+    do  {
+          printMenu();
           Scanner scnr = new Scanner(System.in);
-          int option = scnr.nextInt();
-          System.out.println("");
-          choice = selectChoice(option);// Menu works, we got somewhere
-    }
-    while(choice < 5);   
+          if(scnr.hasNextInt())
+          {
+            int option = scnr.nextInt();
+            System.out.println("");
+            choice = selectChoice(option);// Menu works, we got somewhere printMenu
+          }
+          else
+          {
+            System.out.println("Invalid Entry- Try again");
+          }
+          
+        } while (choice < 5);   
   }
-  
   
 }
 
